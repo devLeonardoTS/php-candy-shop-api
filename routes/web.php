@@ -1,7 +1,10 @@
 <?php
 
+use function Pest\Laravel\json;
+
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CandyController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return response()->json(["message" => "Hello world!"]);
 });
