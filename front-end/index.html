@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Loja de Doces - Mad Kandy</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="vendors/bootstrap-5.3.3-dist/css/bootstrap.min.css"
+    />
+  </head>
+  <body>
+    <nav class="navbar" style="background-color: #e3f2fd">
+      <div class="container-fluid d-flex align-items-center">
+        <a class="navbar-brand" href="#">
+          <img
+            src="./public/images/logomark.svg"
+            alt="Logo"
+            width="40"
+            height="40"
+            class="d-inline-block"
+          />
+          <span class="">MAD</span><span class="">KANDY</span>
+        </a>
+      </div>
+    </nav>
+
+    <h1>Mad Candy Shop</h1>
+
+    <h2>Store Stats</h2>
+    <p>Total Candies Sold: <span id="totalCandiesSold">0</span></p>
+    <p>Total Revenue: $<span id="totalRevenue">0.00</span></p>
+
+    <hr />
+
+    <form id="candyForm">
+      <input type="text" id="name" placeholder="Candy Name" required />
+      <input
+        type="number"
+        id="price"
+        step="0.01"
+        placeholder="Price"
+        required
+      />
+      <input type="number" id="stock" placeholder="Stock" required />
+      <input type="file" id="image" />
+      <button type="submit">Add Candy</button>
+    </form>
+
+    <hr />
+
+    <h2>Available Candies</h2>
+    <div id="candies"></div>
+
+    <hr />
+
+    <h2>Sales History</h2>
+    <div id="salesHistory"></div>
+
+    <hr />
+
+    <h2>"Deleted" Candies</h2>
+    <div id="inactiveCandies"></div>
+
+    <script>
+      const baseUrl = "http://localhost:8000";
+      const statsUrl = "http://localhost:8000/api/stats";
+      const candiesUrl = "http://localhost:8000/api/candies";
+
+      // Fetch and display store stats
+      async function fetchStats() {
+        const response = await fetch(statsUrl);
+        const stats = await response.json();
+        document.getElementById("totalCandiesSold").innerText =
+          stats.total_candies_sold;
+        document.getElementById("totalRevenue").innerText =
+          stats.total_revenue.toFixed(2);
+      }
+
+      async function fetchCandies() {
+        const response = await fetch(candiesUrl);
+        const candies = await response.json();
+        const candyDiv = document.getElementById("candies");
+        candyDiv.innerHTML = candies
+          .map(
+            (candy) => `
+                <div>
+                    <h3>${candy.name} - $${candy.price}</h3>
+                    <p>Stock: ${candy.stock}</p>
+                    <img src="${baseUrl}/storage/${candy.image}" alt="${candy.name}" width="100" />
+                    <button onclick="sellCandy(${candy.id})">Sell</button>
+                    <button onclick="deactivateCandy(${candy.id})">Delete</button>
+                </div>
+            `
+          )
+          .join("");
+        fetchStats(); // Update stats when candies are fetched
+      }
+
+      async function sellCandy(id) {
+        const response = await fetch(`${candiesUrl}/${id}/sell`, {
+          method: "POST",
+        });
+        if (response.ok) {
+          fetchCandies(); // Refresh candies and stats
+          fetchSalesHistory(); // Refresh sales history
+        } else {
+          const error = await response.json();
+          alert(error.message);
+        }
+      }
+
+      async function deactivateCandy(id) {
+        const response = await fetch(`${candiesUrl}/${id}/deactivate`, {
+          method: "POST",
+        });
+        if (response.ok) {
+          fetchCandies(); // Refresh candies and stats
+          fetchInactiveCandies(); // Refresh candies and stats
+        } else {
+          const error = await response.json();
+          alert(error.message);
+        }
+      }
+
+      document
+        .getElementById("candyForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const formData = new FormData();
+          formData.append("name", document.getElementById("name").value);
+          formData.append("price", document.getElementById("price").value);
+          formData.append("stock", document.getElementById("stock").value);
+          const image = document.getElementById("image").files[0];
+          if (image) formData.append("image", image);
+
+          await fetch(candiesUrl, { method: "POST", body: formData });
+          fetchCandies();
+        });
+
+      fetchCandies();
+    </script>
+
+    <script>
+      const salesUrl = "http://localhost:8000/api/sales";
+
+      async function fetchSalesHistory() {
+        const response = await fetch(salesUrl);
+        const sales = await response.json();
+        const salesDiv = document.getElementById("salesHistory");
+        salesDiv.innerHTML = sales
+          .map(
+            (sale) => `
+          <div>
+              <p>Candy: ${sale.candy.name}</p>
+              <p>Price: $${sale.price}</p>
+              <p>Date: ${new Date(sale.created_at).toLocaleString()}</p>
+          </div>
+      `
+          )
+          .join("");
+      }
+
+      // Fetch sales history on page load
+      fetchSalesHistory();
+    </script>
+
+    <script>
+      const inactiveCandiesUrl = "http://localhost:8000/api/candies/inactive";
+
+      async function fetchInactiveCandies() {
+        const response = await fetch(inactiveCandiesUrl);
+        const candies = await response.json();
+        const candyDiv = document.getElementById("inactiveCandies");
+
+        candyDiv.innerHTML = candies
+          .map(
+            (candy) => `
+                <div>
+                    <h3>${candy.name} - $${candy.price}</h3>
+                    <p>Stock: ${candy.stock}</p>
+                    <img src="${baseUrl}/storage/${candy.image}" alt="${candy.name}" width="100" />
+                    <button onclick="restoreCandy(${candy.id})">Restore</button>
+                </div>
+            `
+          )
+          .join("");
+      }
+
+      async function restoreCandy(id) {
+        const response = await fetch(
+          `http://localhost:8000/api/candies/${id}/restore`,
+          {
+            method: "POST",
+          }
+        );
+        if (response.ok) {
+          fetchCandies(); // Refresh candies and stats
+          fetchInactiveCandies(); // Refresh candies and stats
+        } else {
+          const error = await response.json();
+          alert(error.message);
+        }
+      }
+
+      // Fetch inactive candies on page load
+      fetchInactiveCandies();
+    </script>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="vendors/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
