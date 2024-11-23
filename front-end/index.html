@@ -10,59 +10,360 @@
       rel="stylesheet"
       href="vendors/bootstrap-5.3.3-dist/css/bootstrap.min.css"
     />
+
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Underdog&display=swap");
+
+      /* Overwrited Bootstrap - Focused input styles */
+      input.form-control:focus {
+        border-color: #f37a00;
+        box-shadow: 0 0 0 0.25rem rgba(243, 122, 0, 0.5);
+      }
+      /* Overwrited Bootstrap - Focused input styles */
+      .btn:focus {
+        border-color: #f37a00;
+        box-shadow: 0 0 0 0.25rem rgba(243, 122, 0, 0.5);
+      }
+
+      .btn-primary {
+        background-color: #f37a00; /* Your custom primary background color */
+        border-color: #f37a00; /* Custom primary border color */
+      }
+
+      .btn {
+        font-weight: 500;
+      }
+
+      /* Optionally, change the hover/focus state as well */
+      .btn-primary:hover,
+      .btn-primary:focus {
+        background-color: #ffbae2; /* Lighter color for hover */
+        border-color: #ffbae2; /* Different color for border when focused */
+        color: black;
+      }
+
+      /* For odd rows */
+      .table-striped tbody tr:nth-child(odd) td {
+        background-color: #fbf9d3; /* Example striped background color */
+      }
+
+      /* For even rows */
+      .table-striped tbody tr:nth-child(even) td {
+        background-color: #fcd8ed; /* Lighter example striped background color */
+      }
+
+      /* Custom table borders */
+      .table {
+        border-color: #222222; /* Customize the border with your primary dark color */
+      }
+
+      /* Optional: Customize table header */
+      .table thead th {
+        background-color: #f37a00; /* Orange for the header */
+        color: white; /* White text in the header */
+      }
+
+      table td,
+      table th {
+        vertical-align: middle; /* Center content vertically */
+      }
+
+      :root {
+        --bs-primary: #f37a00; /* Your custom primary color */
+      }
+    </style>
   </head>
-  <body>
-    <nav class="navbar" style="background-color: #e3f2fd">
-      <div class="container-fluid d-flex align-items-center">
-        <a class="navbar-brand" href="#">
+
+  <body class="text-white" style="background-color: #151515">
+    <!-- Navigation Bar -->
+    <nav class="navbar" style="background-color: #222222">
+      <div class="container d-flex align-items-center">
+        <a class="navbar-brand d-flex gap-3 align-items-center" href="#">
           <img
             src="./public/images/logomark.svg"
             alt="Logo"
             width="40"
             height="40"
-            class="d-inline-block"
           />
-          <span class="">MAD</span><span class="">KANDY</span>
+          <div class="d-flex flex-column text-white">
+            <span class="fw-bold">MAD KANDY</span>
+            <span class="fs-6">Doces & Travessuras!</span>
+          </div>
         </a>
       </div>
     </nav>
 
-    <h1>Mad Candy Shop</h1>
+    <!-- Hero Section -->
+    <div class="container my-4">
+      <div class="row align-items-center">
+        <!-- Left Column: Text -->
+        <div class="col-md-6 text-center">
+          <h1
+            class="display-3 fw-bold"
+            style="font-family: 'Underdog', 'Arial', sans-serif; color: #f37a00"
+          >
+            MAD KANDY
+          </h1>
+          <p class="lead fs-4" style="color: #f979c4">Doces & Travessuras!</p>
+          <p class="lead text-white">
+            Satisfazendo seus desejos mais doces com um toque de diversão!
+          </p>
+        </div>
 
-    <h2>Store Stats</h2>
-    <p>Total Candies Sold: <span id="totalCandiesSold">0</span></p>
-    <p>Total Revenue: $<span id="totalRevenue">0.00</span></p>
+        <!-- Right Column: Logo -->
+        <div class="col-md-6 text-center">
+          <img
+            src="./public/images/mad-kandy-logomark.png"
+            alt="Mad Kandy Logo"
+            class="img-fluid"
+            style="max-height: 300px"
+          />
+        </div>
+      </div>
+    </div>
 
-    <hr />
+    <!-- Status & Form to add product -->
+    <div style="background-color: #222222">
+      <div class="container py-5">
+        <!-- <h2 class="mb-4">Store Stats & Add Candy</h2> -->
+        <div class="row">
+          <!-- Left Column: Store Stats -->
+          <div class="col-md-6 d-flex flex-column gap-3">
+            <!-- Overall Store Stats Card -->
+            <div class="card w-100 shadow-sm" style="background-color: #fbf9d3">
+              <div class="card-body">
+                <h5 class="card-title mb-4 text-center">
+                  Estatísticas da Loja
+                </h5>
+                <div class="row">
+                  <!-- Total Candies Sold Card -->
+                  <div class="col-6">
+                    <div
+                      class="card text-black text-center"
+                      style="
+                        background-color: #ffbae2;
+                        border-color: black;
+                        border-width: 2px;
+                      "
+                    >
+                      <div class="card-body">
+                        <h6 class="card-title">Total de Doces Vendidos</h6>
+                        <p class="card-text display-6" id="totalCandiesSold">
+                          0
+                        </p>
+                      </div>
+                    </div>
+                  </div>
 
-    <form id="candyForm">
-      <input type="text" id="name" placeholder="Candy Name" required />
-      <input
-        type="number"
-        id="price"
-        step="0.01"
-        placeholder="Price"
-        required
-      />
-      <input type="number" id="stock" placeholder="Stock" required />
-      <input type="file" id="image" />
-      <button type="submit">Add Candy</button>
-    </form>
+                  <!-- Total Revenue Card -->
+                  <div class="col-6">
+                    <div
+                      class="card text-black text-center"
+                      style="
+                        background-color: #b6ff38;
+                        border-color: black;
+                        border-width: 2px;
+                      "
+                    >
+                      <div class="card-body">
+                        <h6 class="card-title">Faturamento Total</h6>
+                        <p class="card-text display-6" id="totalRevenue">
+                          R$ 0.00
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-    <hr />
+            <!-- Most Sold Candy Card -->
+            <div class="card w-100 shadow-sm" style="background-color: #e8f0fe">
+              <div class="card-body d-flex flex-column gap-4">
+                <h5 class="card-title text-center">Doce Mais Vendido</h5>
+                <div class="d-flex gap-4">
+                  <img
+                    id="mostSoldCandyImage"
+                    src="./public/images/placeholder.svg"
+                    alt="Doce Mais Vendido"
+                    class="img-thumbnail mb-3"
+                    style="max-height: 100px; object-fit: cover"
+                  />
+                  <div class="d-flex flex-column">
+                    <p>
+                      <span class="fw-bold">Doce:</span>
+                      <span id="mostSoldCandyName">Nenhum doce encontrado</span>
+                    </p>
+                    <p>
+                      <span class="fw-bold">Qtd. Vendas:</span>
+                      <span id="mostSoldCandyCount">0</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-    <h2>Available Candies</h2>
-    <div id="candies"></div>
+            <!-- Least Sold Candy Card -->
+            <div class="card w-100 shadow-sm" style="background-color: #fbeee2">
+              <div class="card-body d-flex flex-column gap-4">
+                <h5 class="card-title text-center">Doce Menos Vendido</h5>
+                <div class="d-flex gap-4">
+                  <img
+                    id="leastSoldCandyImage"
+                    src="./public/images/placeholder.svg"
+                    alt="Doce Menos Vendido"
+                    class="img-thumbnail mb-3"
+                    style="max-height: 100px; object-fit: cover"
+                  />
+                  <div class="d-flex flex-column">
+                    <p>
+                      <span class="fw-bold">Doce:</span>
+                      <span id="leastSoldCandyName"
+                        >Nenhum doce encontrado</span
+                      >
+                    </p>
+                    <p>
+                      <span class="fw-bold">Qtd. Vendas:</span>
+                      <span id="leastSoldCandyCount">0</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
-    <hr />
+          <!-- Right Column: Add Candy Form -->
+          <div class="col-md-6 d-flex">
+            <div class="card w-100 shadow-sm" style="background-color: #fbf9d3">
+              <div class="card-body d-flex flex-column align-content-center">
+                <h5 class="card-title text-center">Novo Doce</h5>
+                <form id="candyForm" class="flex-fill align-content-center">
+                  <div class="mb-3">
+                    <label for="name" class="form-label fw-semibold"
+                      >Cadastre um novo doce</label
+                    >
+                    <input
+                      type="text"
+                      id="name"
+                      class="form-control"
+                      placeholder="Nome do doce"
+                      required
+                    />
+                  </div>
+                  <div class="mb-3">
+                    <label for="price" class="form-label fw-semibold"
+                      >Preço</label
+                    >
+                    <input
+                      type="number"
+                      id="price"
+                      class="form-control"
+                      step="0.01"
+                      placeholder="Preço"
+                      required
+                    />
+                  </div>
+                  <div class="mb-3">
+                    <label for="stock" class="form-label fw-semibold"
+                      >Estoque Inicial</label
+                    >
+                    <input
+                      type="number"
+                      id="stock"
+                      class="form-control"
+                      placeholder="Estoque inicial"
+                      required
+                    />
+                  </div>
+                  <div class="mb-3">
+                    <label for="image" class="form-label fw-semibold"
+                      >Imagem</label
+                    >
+                    <input type="file" id="image" class="form-control" />
+                  </div>
+                  <button
+                    type="submit"
+                    class="btn btn-primary w-100 fw-semibold"
+                  >
+                    Adicionar Doce
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-    <h2>Sales History</h2>
-    <div id="salesHistory"></div>
+    <!-- Available Candies -->
+    <div class="container py-4">
+      <h2 class="mb-4">Doces disponíveis</h2>
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">Doce</th>
+            <th scope="col" class="text-center">Preço</th>
+            <th scope="col" class="text-center">Estoque</th>
+            <th scope="col" class="text-center">Ações</th>
+          </tr>
+        </thead>
+        <tbody id="candies"></tbody>
+      </table>
+    </div>
 
-    <hr />
+    <!-- Sales History -->
+    <div style="background-color: #222222">
+      <div class="container py-4">
+        <h2 class="mb-4">Histórico de Vendas</h2>
+        <table class="table table-striped table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">Doce</th>
+              <th scope="col" class="text-center">Preço</th>
+              <th scope="col" class="text-center">Data de Venda</th>
+            </tr>
+          </thead>
+          <tbody id="salesHistory"></tbody>
+        </table>
+      </div>
+    </div>
 
-    <h2>"Deleted" Candies</h2>
-    <div id="inactiveCandies"></div>
+    <!-- Deactivated Candies -->
+    <div class="container py-4">
+      <h2 class="mb-4">Doces desativados</h2>
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">Doce</th>
+            <th scope="col" class="text-center">Preço</th>
+            <th scope="col" class="text-center">Estoque</th>
+            <th scope="col" class="text-center">Ações</th>
+          </tr>
+        </thead>
+        <tbody id="inactiveCandies"></tbody>
+      </table>
+    </div>
+
+    <!-- Footer -->
+    <div style="background-color: #222222">
+      <div
+        class="container py-1 d-flex align-items-center justify-content-between"
+      >
+        <small>
+          &copy;
+          <span id="currentYear"></span>
+          <a
+            href="https://github.com/devLeonardoTS"
+            target="_blank"
+            class="p-0 m-0"
+          >
+            Leonardo T. Sanehira
+          </a>
+          — Ryan R. Nunes — Vitor A. A. Prates. Todos os direitos reservados.
+        </small>
+        <span class="small">versão 0.1.0</span>
+      </div>
+    </div>
 
     <script>
       const baseUrl = "http://localhost:8000";
@@ -73,26 +374,98 @@
       async function fetchStats() {
         const response = await fetch(statsUrl);
         const stats = await response.json();
-        document.getElementById("totalCandiesSold").innerText =
-          stats.total_candies_sold;
-        document.getElementById("totalRevenue").innerText =
-          stats.total_revenue.toFixed(2);
+
+        // Statss
+        const totalCandiesSoldParagraph =
+          document.getElementById("totalCandiesSold");
+        const totalRevenueParagraph = document.getElementById("totalRevenue");
+
+        totalCandiesSoldParagraph.innerText = stats.total_candies_sold;
+        totalRevenueParagraph.innerText = `R$ ${stats.total_revenue.toFixed(
+          2
+        )}`;
+
+        // Most Sold Candy
+        const mostSoldCandyImage =
+          document.getElementById("mostSoldCandyImage");
+
+        const mostSoldCandyName = document.getElementById("mostSoldCandyName");
+        const mostSoldCandyCount =
+          document.getElementById("mostSoldCandyCount");
+
+        if (stats.most_sold_candy) {
+          mostSoldCandyImage.src = `${baseUrl}/storage/${stats.most_sold_candy.image}`;
+          mostSoldCandyImage.alt = stats.most_sold_candy.name;
+          mostSoldCandyName.textContent = stats.most_sold_candy.name;
+          mostSoldCandyCount.textContent = stats.most_sold_candy.sales_count;
+        }
+
+        // Least Sold Candy
+        const leastSoldCandyImage = document.getElementById(
+          "leastSoldCandyImage"
+        );
+        const leastSoldCandyName =
+          document.getElementById("leastSoldCandyName");
+
+        const leastSoldCandyCount = document.getElementById(
+          "leastSoldCandyCount"
+        );
+
+        if (stats.least_sold_candy) {
+          leastSoldCandyImage.src = `${baseUrl}/storage/${stats.least_sold_candy.image}`;
+          leastSoldCandyImage.alt = stats.least_sold_candy.name;
+          leastSoldCandyName.textContent = stats.least_sold_candy.name;
+          leastSoldCandyCount.textContent = stats.least_sold_candy.sales_count;
+        }
       }
 
       async function fetchCandies() {
         const response = await fetch(candiesUrl);
         const candies = await response.json();
         const candyDiv = document.getElementById("candies");
+
+        if (candies.length === 0) {
+          candyDiv.innerHTML = `
+              <tr>
+                  <td colspan="4" class="text-center text-muted">
+                      Nenhum doce foi encontrado aqui.
+                  </td>
+              </tr>
+          `;
+          return;
+        }
+
         candyDiv.innerHTML = candies
           .map(
             (candy) => `
-                <div>
-                    <h3>${candy.name} - $${candy.price}</h3>
-                    <p>Stock: ${candy.stock}</p>
-                    <img src="${baseUrl}/storage/${candy.image}" alt="${candy.name}" width="100" />
-                    <button onclick="sellCandy(${candy.id})">Sell</button>
-                    <button onclick="deactivateCandy(${candy.id})">Delete</button>
-                </div>
+                <tr>
+                  <td>
+                    <img
+                      src="${baseUrl}/storage/${candy.image}"
+                      alt="${candy.name}"
+                      width="50"
+                      height="50"
+                      class="img-thumbnail"
+                    />
+                    ${candy.name}
+                  </td>
+                  <td class="text-center">R$ ${candy.price}</td>
+                  <td class="text-center">${candy.stock}</td>
+                  <td class="text-center">
+                    <button
+                      onclick="sellCandy(${candy.id})"
+                      class="btn btn-success btn-sm"
+                    >
+                      Vender
+                    </button>
+                    <button
+                      onclick="deactivateCandy(${candy.id})"
+                      class="btn btn-danger btn-sm"
+                    >
+                      Desativar
+                    </button>
+                  </td>
+                </tr>
             `
           )
           .join("");
@@ -150,15 +523,29 @@
         const response = await fetch(salesUrl);
         const sales = await response.json();
         const salesDiv = document.getElementById("salesHistory");
+
+        if (sales.length === 0) {
+          salesDiv.innerHTML = `
+              <tr>
+                  <td colspan="3" class="text-center text-muted">
+                      Nenhuma venda foi registrada.
+                  </td>
+              </tr>
+          `;
+          return;
+        }
+
         salesDiv.innerHTML = sales
           .map(
             (sale) => `
-          <div>
-              <p>Candy: ${sale.candy.name}</p>
-              <p>Price: $${sale.price}</p>
-              <p>Date: ${new Date(sale.created_at).toLocaleString()}</p>
-          </div>
-      `
+              <tr>
+                <td>${sale.candy.name}</td>
+                <td class="text-center">R$ ${sale.price}</td>
+                <td class="text-center">${new Date(
+                  sale.created_at
+                ).toLocaleString()}</td>
+              </tr>
+              `
           )
           .join("");
       }
@@ -175,15 +562,42 @@
         const candies = await response.json();
         const candyDiv = document.getElementById("inactiveCandies");
 
+        if (candies.length === 0) {
+          candyDiv.innerHTML = `
+              <tr>
+                  <td colspan="4" class="text-center text-muted">
+                      Nenhum doce foi encontrado aqui.
+                  </td>
+              </tr>
+          `;
+          return;
+        }
+
         candyDiv.innerHTML = candies
           .map(
             (candy) => `
-                <div>
-                    <h3>${candy.name} - $${candy.price}</h3>
-                    <p>Stock: ${candy.stock}</p>
-                    <img src="${baseUrl}/storage/${candy.image}" alt="${candy.name}" width="100" />
-                    <button onclick="restoreCandy(${candy.id})">Restore</button>
-                </div>
+                <tr>
+                  <td>
+                    <img
+                      src="${baseUrl}/storage/${candy.image}"
+                      alt="${candy.name}"
+                      width="50"
+                      height="50"
+                      class="img-thumbnail"
+                    />
+                    ${candy.name}
+                  </td>
+                  <td class="text-center">R$ ${candy.price}</td>
+                  <td class="text-center">${candy.stock}</td>
+                  <td class="text-center">
+                    <button
+                      onclick="restoreCandy(${candy.id})"
+                      class="btn btn-success btn-sm"
+                    >
+                      Reativar
+                    </button>
+                  </td>
+                </tr>
             `
           )
           .join("");
@@ -207,6 +621,17 @@
 
       // Fetch inactive candies on page load
       fetchInactiveCandies();
+    </script>
+
+    <script>
+      const currentYearSpan = document.getElementById("currentYear");
+
+      function getCurrentYear() {
+        const currentYear = new Date().getFullYear();
+        currentYearSpan.innerHTML = `${currentYear}`;
+      }
+
+      getCurrentYear();
     </script>
 
     <!-- Bootstrap JS Bundle -->

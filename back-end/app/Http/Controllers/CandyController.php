@@ -125,9 +125,19 @@ class CandyController extends Controller
     {
         $stats = CandySaleStat::first();
 
+        $mostSoldCandy = Candy::withCount('sales')
+            ->orderByDesc('sales_count')
+            ->first();
+
+        $leastSoldCandy = Candy::withCount('sales')
+            ->orderBy('sales_count')
+            ->first();
+
         return response()->json([
             'total_candies_sold' => $stats->total_candies_sold ?? 0,
             'total_revenue' => $stats->total_revenue ?? 0.00,
+            'most_sold_candy' => $mostSoldCandy,
+            'least_sold_candy' => $leastSoldCandy
         ]);
     }
 }
