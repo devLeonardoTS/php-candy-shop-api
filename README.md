@@ -89,4 +89,4 @@ Com o servidor em execução, navegue até o diretório `front-end` e abra o arq
 
 ## Licença
 
-Este projeto está licenciado sob a [Licença MIT](LICENSE). Contribuições são bem-vindas!
+Este projeto está licenciado sob a [Licença Apache 2.0](LICENSE). Contribuições são bem-vindas!
