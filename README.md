@@ -1,7 +1,7 @@
 
 # Sistema de Gestão de Vendas e Estoque - Mad Kandy
 
-Bem-vindo ao sistema de gestão de vendas e estoque da Mad Kandy, uma solução desenvolvida para integrar o controle de estoque com as vendas de forma eficiente e automatizada.
+Este repositório contém o código para o sistema de gestão de vendas e estoque da **Mad Kandy**, uma loja de doces com temática de Halloween. O sistema foi desenvolvido com **Laravel** para o back-end e oferece integração com o banco de dados e o controle de estoque de forma automatizada.
 
 ## Requisitos
 
