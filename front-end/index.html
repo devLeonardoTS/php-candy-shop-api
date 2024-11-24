@@ -259,6 +259,7 @@
                       id="price"
                       class="form-control"
                       step="0.01"
+                      min="0"
                       placeholder="Preço"
                       required
                     />
@@ -498,18 +499,50 @@
         }
       }
 
+      function resetFields() {
+        const inputName = document.getElementById("name");
+        const inputPrice = document.getElementById("price");
+        const inputStock = document.getElementById("stock");
+        const inputFile = document.getElementById("image");
+
+        inputName.value = "";
+        inputPrice.value = "";
+        inputStock.value = "";
+        inputFile.value = "";
+      }
+
       document
         .getElementById("candyForm")
         .addEventListener("submit", async (e) => {
           e.preventDefault();
           const formData = new FormData();
-          formData.append("name", document.getElementById("name").value);
-          formData.append("price", document.getElementById("price").value);
-          formData.append("stock", document.getElementById("stock").value);
-          const image = document.getElementById("image").files[0];
+
+          const inputName = document.getElementById("name");
+          const inputPrice = document.getElementById("price");
+          const inputStock = document.getElementById("stock");
+          const inputFile = document.getElementById("image");
+
+          formData.append("name", inputName.value);
+          formData.append("price", inputPrice.value);
+          formData.append("stock", inputStock.value);
+          const image = inputFile.files[0];
           if (image) formData.append("image", image);
 
-          await fetch(candiesUrl, { method: "POST", body: formData });
+          const response = await fetch(candiesUrl, {
+            method: "POST",
+            body: formData,
+            headers: {
+              Accept: "application/json",
+            },
+          });
+
+          if (response.ok) {
+            resetFields();
+          } else {
+            const error = await response.json();
+            alert(error.message);
+          }
+
           fetchCandies();
         });
 

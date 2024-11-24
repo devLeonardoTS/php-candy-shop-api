@@ -19,10 +19,12 @@ class CandyController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'name' => 'required|string',
+            'name' => 'required|string|unique:candies,name',
             'price' => 'required|numeric',
             'stock' => 'required|integer',
             'image' => 'nullable|image|max:2048'
+        ], [
+            'name.unique' => 'Já existe um doce com esse nome. Por favor, escolha um nome diferente.',
         ]);
 
         if ($request->hasFile('image')) {
