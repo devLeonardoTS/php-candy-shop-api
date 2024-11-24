@@ -1,87 +1,92 @@
+
 # Sistema de Gestão de Vendas e Estoque - Mad Kandy
 
-Este repositório contém o código para o sistema de gestão de vendas e estoque da **Mad Kandy**, uma loja de doces com temática de Halloween. O sistema foi desenvolvido com **Laravel** para o back-end e oferece integração com o banco de dados e o controle de estoque de forma automatizada.
+Bem-vindo ao sistema de gestão de vendas e estoque da Mad Kandy, uma solução desenvolvida para integrar o controle de estoque com as vendas de forma eficiente e automatizada.
 
 ## Requisitos
 
-Antes de executar o sistema, você precisa instalar as seguintes ferramentas:
+Este guia assume que o usuário tem alguma experiência com o uso de terminais de comando para execução de comandos simples e acesso à internet. Caso essa seja sua primeira vez utilizando um sistema Laravel, siga os passos abaixo para configurar sua máquina.
 
-- **XAMPP**: Para configurar o servidor Apache, PHP e MySQL.
-  - [Baixar XAMPP](https://www.apachefriends.org/pt_br/index.html)
-  - **Atenção**: Garanta que o **PATH** para o PHP seja configurado corretamente durante a instalação.
+### Ferramentas Necessárias
 
-- **Composer**: Gerenciador de dependências do PHP.
-  - [Baixar Composer](https://getcomposer.org/download/)
+Antes de executar o sistema, certifique-se de ter os seguintes programas instalados:
 
-- **Laravel**: Framework PHP para o desenvolvimento do sistema.
-  - Após instalar o Composer, execute o seguinte comando no terminal (Powershell no Windows ou Bash no Linux) para instalar o Laravel:
-  
-    ```bash
-    composer global require laravel/installer
-    ```
+1. **XAMPP**  
+   - [Baixar XAMPP](https://www.apachefriends.org/pt_br/index.html)  
+   - **Configuração Adicional**:  
+     Após a instalação, abra o arquivo de configuração do PHP `php.ini` localizado na pasta `php` do XAMPP e habilite a extensão `zip` removendo o `;` antes dela. Isso é necessário para que o Composer possa instalar as bibliotecas.
 
-## Instruções de Execução
+2. **Composer** (Gerenciador de dependências do PHP)  
+   - [Baixar Composer](https://getcomposer.org/download/)  
+   - **Atenção**: Durante a instalação, certifique-se de configurar corretamente o PATH do PHP para que ele seja reconhecido no terminal.
 
-Siga os passos abaixo para configurar e executar o sistema em sua máquina.
+3. **Laravel** (Framework PHP)  
+   - Após instalar o Composer, abra o terminal e execute o seguinte comando para instalar o Laravel globalmente:  
+     ```bash
+     composer global require laravel/installer
+     ```
 
-### 1. Baixar o Projeto
+## Instalação do Projeto
 
-Clone o repositório ou faça o download do projeto. Extraia o conteúdo para um diretório de sua escolha.
+### 1. Baixando o Projeto
 
-### 2. Instalar Dependências
+Clone o repositório ou faça o download do projeto diretamente pelo GitHub:  
+[Repositório do Projeto](https://github.com/devLeonardoTS/php-candy-shop-api)
 
-Abra o terminal e navegue até o diretório `back-end` do projeto. Execute o seguinte comando para instalar as dependências necessárias:
+Após o download, extraia o conteúdo para um diretório de sua preferência. Acesse o diretório `back-end` via terminal.
 
+### 2. Instalação de Dependências
+
+No terminal, dentro da pasta `back-end`, execute o comando:  
 ```bash
 composer install
 ```
 
-Isso fará com que o Composer baixe e instale todas as bibliotecas necessárias para o funcionamento do servidor web.
+Esse comando fará com que o Composer instale todas as dependências necessárias para o funcionamento do servidor web.
 
 ### 3. Configuração das Variáveis de Ambiente
 
-No diretório `back-end`, localize o arquivo `.env.example` e crie uma cópia dele com o nome `.env`:
-
-```bash
-cp .env.example .env
-```
-
-Abra o arquivo `.env` e configure as informações do banco de dados, como host, usuário e senha. Se você estiver utilizando o **SQLite**, não será necessário modificar essas configurações, mas se estiver usando MySQL ou outro banco de dados, ajuste conforme necessário.
+Localize o arquivo `.env.example` no diretório `back-end` e crie uma cópia dele renomeando para `.env` (remova a parte `.example`).  
+Esse arquivo permite configurar as informações de acesso ao banco de dados. Caso utilize algo além do SQLite (como MySQL), atualize as variáveis correspondentes.
 
 ### 4. Gerar a Chave de Segurança e Configurar o Banco de Dados
 
-Ainda no diretório `back-end`, execute os seguintes comandos no terminal para gerar a chave de segurança, criar um vínculo simbólico para os recursos de armazenamento e executar as migrações no banco de dados:
+Com o arquivo `.env` configurado, execute os seguintes comandos no terminal:
 
-```bash
-php artisan key:generate
-php artisan storage:link
-php artisan migrate:fresh
-```
+1. Gere a chave de segurança:  
+   ```bash
+   php artisan key:generate
+   ```
 
-Esses comandos irão configurar sua aplicação, gerenciar arquivos de armazenamento e criar as tabelas do banco de dados.
+2. Crie um vínculo simbólico para os recursos de armazenamento:  
+   ```bash
+   php artisan storage:link
+   ```
 
-### 5. Iniciar o Servidor Web
+3. Execute as migrações para configurar o banco de dados:  
+   ```bash
+   php artisan migrate
+   ```  
+   - Caso precise resetar o banco de dados no futuro, utilize:  
+     ```bash
+     php artisan migrate:refresh
+     ```
 
-Para iniciar o servidor, execute o seguinte comando no terminal dentro do diretório `back-end`:
+### 5. Iniciar o Web Server
 
+Para iniciar o servidor, execute o seguinte comando no terminal, ainda no diretório `back-end`:  
 ```bash
 php artisan serve
 ```
 
-Este comando iniciará o servidor web que ficará ativo enquanto o sistema estiver sendo utilizado. Você precisará executá-lo sempre que desejar usar o sistema.
+Esse comando deve ser repetido sempre que for necessário iniciar o sistema.
 
-### 6. Acessando o Sistema
+## Utilizando o Sistema
 
-Após iniciar o servidor, você pode acessar o sistema de gestão de vendas e estoque da Mad Kandy. Para isso, navegue até o diretório `front-end` e abra o arquivo `index.html` em seu navegador.
-
----
-
-## Contribuições
-
-Se você quiser contribuir para o projeto, por favor, faça um fork e envie pull requests. Certifique-se de que suas alterações sejam bem documentadas e testadas antes de submeter.
+Com o servidor em execução, navegue até o diretório `front-end` e abra o arquivo `index.html` em seu navegador. Isso permitirá acessar o sistema de gestão de vendas e estoque da Mad Kandy.
 
 ---
 
 ## Licença
 
-Este projeto está licenciado sob a [Licença MIT](LICENSE).
+Este projeto está licenciado sob a [Licença MIT](LICENSE). Contribuições são bem-vindas!
